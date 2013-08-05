@@ -1,0 +1,12 @@
+<div id='breadcrumb' class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+        <a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a> {% if extras or extra %} &gt; {% endif %}
+    {% endfor %}
+    {% for name, url in extras %}
+        {% if forloop.first and breadcrumb %}  &gt;  {% endif %}
+        <a href="{{ url }}">{{ name }}</a> {% if not forloop.last or extra %} &gt; {% endif %}
+    {% endfor %}
+    {% if extra %}
+        <span> {{ extra }} </span>
+    {% endif %}
+</div>

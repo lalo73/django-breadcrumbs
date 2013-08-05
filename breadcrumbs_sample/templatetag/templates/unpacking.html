@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% load breadcrumb_tags %}
+
+{% block content %}
+
+    {% breadcrumbs extra_params "unpacking-breadcrumb" unpack=True %}
+
+    <p> You are unpack breadcrumbs </p>
+    You can click on them!
+{% endblock content %}

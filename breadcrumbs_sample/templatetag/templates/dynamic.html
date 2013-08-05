@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% load breadcrumb_tags %}
+
+{% block content %}
+    {% url "tag-index" as index_url %}
+
+    {% breadcrumbs "tag-index-page" index_url "dynamic-breadcrumb" %}
+
+    <p> You are generating dynamic breadcrumbs </p>
+    You can click on them!
+{% endblock content %}

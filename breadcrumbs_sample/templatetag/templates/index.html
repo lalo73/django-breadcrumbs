@@ -1,0 +1,26 @@
+{% load breadcrumb_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+{% block content %}
+    {% breadcrumbs "breadcrumb-tag-index" %}
+
+    <p> You are on breadcrumb template tag page </p>
+    Click on some link and you will see the "index" breadcrumb.
+{% endblock content %}
+
+<a href="{% url "tag-index" %}">
+    <div>Tag index page</div>
+</a>
+<a href="{% url "dynamic" %}">
+    <div>Dynamic page and url</div>
+</a>
+<a href="{% url "unpacking" %}">
+    <div>Unpack of first parameter</div>
+</a>
+
+</body>
+</html>

@@ -7,6 +7,9 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 
+BREADCRUMBS_AUTO_HOME = getattr(settings, 'BREADCRUMBS_AUTO_HOME', False)
+BREADCRUMBS_HOME_TITLE = getattr(settings, 'BREADCRUMBS_HOME_TITLE', _(u'Home'))
+
 
 class BreadcrumbsInvalidFormat(Exception):
     """
@@ -66,7 +69,7 @@ class Breadcrumbs(Singleton):
     class or with get_breadcrumbs().
     """
     __bds = []
-    __autohome = getattr(settings, 'BREADCRUMBS_AUTO_HOME', False)
+    __autohome = BREADCRUMBS_AUTO_HOME
     __urls = []
     __started = False
 
@@ -78,12 +81,12 @@ class Breadcrumbs(Singleton):
     def __fill_home(self):
         # fill home if settings.BREADCRUMBS_AUTO_HOME is True
         if self.__autohome and len(self.__bds) == 0:
-            home_title = getattr(settings, 'BREADCRUMBS_HOME_TITLE', _(u'Home'))
+            home_title = BREADCRUMBS_HOME_TITLE
             self.__fill_bds((home_title, u"/"))
 
     def _clean(self):
         self.__bds = []
-        self.__autohome = getattr(settings, 'BREADCRUMBS_AUTO_HOME', False)
+        self.__autohome = BREADCRUMBS_AUTO_HOME
         self.__urls = []
         self.__fill_home()
 

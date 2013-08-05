@@ -105,7 +105,9 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'breadcrumbs_sample.webui'
+    'breadcrumbs_sample.webui',
+    'templatetag',
+    'breadcrumbs',
 )
 
 BREADCRUMBS_AUTO_HOME = True

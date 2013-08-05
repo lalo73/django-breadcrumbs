@@ -4,6 +4,51 @@ from django.http import Http404
 from breadcrumbs import Breadcrumbs, BreadcrumbsNotSet
 from django.conf import settings
 from django.core.cache import cache
+from breadcrumbs import BREADCRUMBS_AUTO_HOME, BREADCRUMBS_HOME_TITLE
+from django.utils.translation import ugettext as _
+import re
+
+BREADCRUMBS_AUTO_HOME = getattr(settings, 'BREADCRUMBS_AUTO_HOME', False)
+BREADCRUMBS_HOME_TITLE = getattr(settings, 'BREADCRUMBS_HOME_TITLE', _(u'Home'))
+
+PAGE_MATCHES = getattr(settings, 'PAGE_MATCHES', dict())
+#This must be a dictionary. The key are used like regular expression to match the url.
+# The value will be shown in breadcrumb. See the template.
+# PAGE_MATCHES  = {
+#   r'/': u"Home",
+#   r'/foo/': u"Foo page"
+# }
+
+
+if BREADCRUMBS_AUTO_HOME:
+    PAGE_MATCHES.update({r'/': BREADCRUMBS_HOME_TITLE})
+
+
+def register_referer(request):
+    """
+    In any View, you can register the page where you come from.
+    It will be automatically matched PAGE_MATCHES with dictionary.
+    If it doesn't match, it wont be added to breadcrumbs
+    """
+    referer = get_referrer(request)
+    if referer:
+        name = get_name_from_url(referer)
+        if name and (name != BREADCRUMBS_HOME_TITLE):
+            request.breadcrumbs(name, referer)
+
+
+def get_referrer(request):
+    return request.META.get('HTTP_REFERER', None)
+
+
+def get_name_from_url(url):
+    """
+    If the url matched with any regex, then return the name of that page.
+    """
+    for page_regex in PAGE_MATCHES:
+        if re.search(page_regex, url):
+            return PAGE_MATCHES[page_regex]
+    return None
 
 
 def make_flatpages_cache_key():
